@@ -22,6 +22,7 @@ body {
   margin: 0;
   min-width: 320px;
   place-items: center;
+  font-family: 'GmarketSans';
 }
 
 h1,

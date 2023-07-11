@@ -1,4 +1,5 @@
 <script lang="ts">
+import { defineComponent } from 'vue';
 import Month from './components/Month.vue';
 
 import { initializeApp } from 'firebase/app';
@@ -37,6 +38,10 @@ data.forEach((data) => {
   console.log('data level:', data.level);
   console.log('data date:', dayjs(data.date).format('YYYY-MM-DD hh:mm:ss'));
   console.log('data reason:', data.reason);
+});
+
+export default defineComponent({
+  setup() {},
 });
 </script>
 
