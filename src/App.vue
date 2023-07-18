@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
 import Month from './components/Month.vue';
+import WriteBtn from './components/WriteBtn.vue';
 
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
@@ -11,6 +12,7 @@ import {
   Firestore,
 } from 'firebase/firestore/lite';
 import dayjs from 'dayjs';
+import 'primeicons/primeicons.css';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
@@ -53,6 +55,10 @@ export default defineComponent({
 
     return { data, changeButtonState };
   },
+  components: {
+    Month,
+    WriteBtn,
+  },
 });
 </script>
 
@@ -78,9 +84,13 @@ export default defineComponent({
     <p class="desc">오늘은 또 무슨 이유로 울었을까요? 🥲</p>
   </div>
   <Month />
+  <WriteBtn />
 </template>
 
 <style scoped lang="scss">
+.main-container {
+  display: relative;
+}
 .btn {
   width: 100px;
 

@@ -8,7 +8,7 @@ interface ComponentData {
 export default defineComponent({
   setup() {
     const data: ComponentData = reactive({
-      monthArr: [],
+      monthArr: ['7월'],
     });
 
     return {
@@ -19,7 +19,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container">6월</div>
+  <div class="container">{{ data.monthArr[0] }}</div>
 </template>
 
 <style scoped lang="scss">
