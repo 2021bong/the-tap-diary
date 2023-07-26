@@ -10,13 +10,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <button class="btn" :class="select ? lanType + ' select' : lanType">
+  <button class="lan-btn" :class="select ? 'select' : null">
     {{ lanType }}
   </button>
 </template>
 
 <style lang="scss">
-.btn {
+.lan-btn {
   width: 100px;
 
   &:first-of-type {
@@ -24,7 +24,7 @@ export default defineComponent({
   }
 }
 
-.btn.select {
+.lan-btn.select {
   background-color: #e2e2e2;
 }
 </style>
