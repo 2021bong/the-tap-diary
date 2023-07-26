@@ -19,14 +19,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="container">{{ data.monthArr[0] }}</div>
+  <div class="button">{{ data.monthArr[0] }}</div>
 </template>
 
 <style scoped lang="scss">
-.container {
+.button {
   display: inline-block;
   padding: 10px 20px;
   background-color: #80a6ff;
+  border: none;
   border-radius: 16px;
   color: #fff;
   font-weight: 700;

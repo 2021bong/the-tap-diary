@@ -16,13 +16,14 @@ export default defineComponent({});
 <style lang="scss">
 .write-btn {
   position: absolute;
-  right: 0;
-  bottom: 0;
+  right: 10px;
+  bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 50px;
   height: 50px;
+  border: none;
   border-radius: 99%;
   background-color: #2779f6;
 
