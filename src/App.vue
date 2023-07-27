@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, defineProps, ref } from 'vue';
 import Main from './pages/Main.vue';
 import WriteModal from './pages/WriteModal.vue';
 
@@ -43,6 +43,15 @@ data.forEach((data) => {
 });
 
 export default defineComponent({
+  setup() {
+    const isShowModal = ref(false);
+
+    const showModal = () => {
+      isShowModal.value = !isShowModal.value;
+    };
+
+    return { isShowModal, showModal };
+  },
   components: {
     Main,
     WriteModal,
@@ -51,8 +60,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <Main />
-  <!-- <WriteModal /> -->
+  <Main @show-modal="showModal" />
+  <div v-if="isShowModal">
+    <WriteModal @show-modal="showModal" />
+  </div>
 </template>
 
 <style lang="scss"></style>

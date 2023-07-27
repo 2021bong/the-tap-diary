@@ -38,22 +38,10 @@ p {
 }
 
 button {
-  padding: 15px 5px;
-  border-radius: 8px;
-  border: 1px solid #eee;
   background-color: #fff;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  transition: border-color 0.25s;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-}
-button:hover {
-  background-color: #eee;
-}
-button:active {
-  border: 1px solid #ddd;
-  background-color: #ddd;
 }
 
 #app {

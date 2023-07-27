@@ -1,13 +1,29 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-export default defineComponent({});
+export default defineComponent({
+  name: 'WriteModal',
+  emits: ['show-modal'],
+  setup(props, { emit }) {
+    const clickHideModalBtn = () => {
+      emit('show-modal');
+    };
+
+    return { clickHideModalBtn };
+  },
+});
 </script>
 
 <template>
   <div class="background">
     <div class="write-modal">
       <h4 class="title">작성하기</h4>
+      <button class="close-btn" @click="clickHideModalBtn">
+        <span
+          class="pi pi-times icon"
+          style="font-size: 1.2rem; color: #000"
+        ></span>
+      </button>
     </div>
   </div>
 </template>
@@ -36,6 +52,20 @@ export default defineComponent({});
 
   .title {
     font-size: 18px;
+  }
+
+  .close-btn {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    background-color: #fff;
+    transition: 0.3s;
+
+    &:hover {
+      padding: 10px;
+      background-color: #eee;
+      transform: translate(5px, -5px);
+    }
   }
 }
 </style>

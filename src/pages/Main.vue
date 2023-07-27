@@ -5,7 +5,14 @@ import LanBtn from '../components/LanBtn.vue';
 import WriteBtn from '../components/WriteBtn.vue';
 
 export default defineComponent({
-  setup() {
+  name: 'Main',
+  components: {
+    Month,
+    LanBtn,
+    WriteBtn,
+  },
+  emits: ['show-modal'],
+  setup(props, { emit }) {
     const data = reactive({
       activeKr: true,
     });
@@ -15,12 +22,11 @@ export default defineComponent({
       target.id === 'kr' ? (data.activeKr = true) : (data.activeKr = false);
     };
 
-    return { data, changeButtonState };
-  },
-  components: {
-    Month,
-    LanBtn,
-    WriteBtn,
+    const clickShowModalBtn = () => {
+      emit('show-modal');
+    };
+
+    return { data, changeButtonState, clickShowModalBtn };
   },
 });
 </script>
@@ -48,7 +54,7 @@ export default defineComponent({
       <p class="desc">오늘은 또 무슨 이유로 울었을까요? 🥲</p>
     </div>
     <Month />
-    <WriteBtn />
+    <WriteBtn @click="clickShowModalBtn" />
   </div>
 </template>
 
@@ -62,6 +68,13 @@ export default defineComponent({
 }
 .lan-btn {
   width: 100px;
+  padding: 15px 5px;
+  border: 1px solid #eee;
+  background-color: #fff;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  transition: border-color 0.25s;
 
   &:first-of-type {
     margin-right: 10px;
