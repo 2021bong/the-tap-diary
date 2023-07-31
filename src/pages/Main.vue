@@ -12,7 +12,7 @@ export default defineComponent({
     WriteBtn,
   },
   emits: ['show-modal'],
-  setup(props, { emit }) {
+  setup(_, { emit }) {
     const data = reactive({
       activeKr: true,
     });

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, defineProps, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import Main from './pages/Main.vue';
 import WriteModal from './pages/WriteModal.vue';
 

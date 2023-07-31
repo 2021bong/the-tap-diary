@@ -44,6 +44,25 @@ button {
   cursor: pointer;
 }
 
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+textarea {
+  resize: none;
+  border: none;
+}
+textarea:focus {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
 #app {
   position: relative;
   width: 100%;
