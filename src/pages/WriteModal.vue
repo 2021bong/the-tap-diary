@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'WriteModal',
@@ -12,11 +12,20 @@ export default defineComponent({
       { level: '주륵주륵', class: 'level4', select: true },
       { level: '꺼이꺼이', class: 'level5', select: true },
     ];
+
+    const reasonText = ref('');
+
+    const writeReasonText = (e: Event) => {
+      const event = e.target as HTMLInputElement;
+      const text = event.value;
+      text?.length <= 130 && (reasonText.value = text);
+    };
+
     const clickHideModalBtn = () => {
       emit('show-modal');
     };
 
-    return { tearLevel, clickHideModalBtn };
+    return { tearLevel, reasonText, writeReasonText, clickHideModalBtn };
   },
 });
 </script>
@@ -47,9 +56,13 @@ export default defineComponent({
         <textarea
           name="reason"
           id="reason"
-          placeholder="오늘 또 운 이유는 ?"
+          placeholder="오늘 또 운 이유는 ? 😯"
+          v-model="reasonText"
+          @input="writeReasonText"
+          maxlength="134"
         ></textarea>
       </div>
+      <button class="complete-btn">저장</button>
     </div>
   </div>
 </template>
@@ -82,11 +95,25 @@ export default defineComponent({
     margin-bottom: 20px;
   }
 
+  .close-btn {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    background-color: #fff;
+    transition: 0.3s;
+
+    &:hover {
+      padding: 10px;
+      background-color: #eee;
+      transform: translate(5px, -5px);
+    }
+  }
+
   .level-box {
     width: 80%;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 
     .level {
       padding: 5px;
@@ -131,20 +158,6 @@ export default defineComponent({
     }
   }
 
-  .close-btn {
-    position: absolute;
-    right: 25px;
-    top: 25px;
-    background-color: #fff;
-    transition: 0.3s;
-
-    &:hover {
-      padding: 10px;
-      background-color: #eee;
-      transform: translate(5px, -5px);
-    }
-  }
-
   .text-area {
     display: flex;
     justify-content: center;
@@ -152,6 +165,7 @@ export default defineComponent({
     width: 80%;
     height: 120px;
     border-radius: 10px;
+    margin-bottom: 20px;
     padding: 10px;
     box-shadow: 1px 2px 15px 0px rgba(0, 0, 0, 0.1) inset;
 
@@ -160,11 +174,35 @@ export default defineComponent({
       height: 100%;
       background-color: transparent;
       font-size: 1.2rem;
+      line-height: 1.4;
       font-family: 'GmarketSans';
     }
     textarea::placeholder {
       padding-top: 40px;
       text-align: center;
+    }
+  }
+
+  .complete-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    background-color: #2779f6;
+    font-size: 1.2rem;
+    font-family: 'GmarketSans';
+    font-weight: 500;
+
+    &:hover {
+      background-color: #05cef4;
+    }
+
+    &:active {
+      background-color: #2779f6;
     }
   }
 }
