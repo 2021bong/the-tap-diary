@@ -15,17 +15,11 @@ export default defineComponent({
 
     const reasonText = ref('');
 
-    const writeReasonText = (e: Event) => {
-      const event = e.target as HTMLInputElement;
-      const text = event.value;
-      text?.length <= 130 && (reasonText.value = text);
-    };
-
     const clickHideModalBtn = () => {
       emit('show-modal');
     };
 
-    return { tearLevel, reasonText, writeReasonText, clickHideModalBtn };
+    return { tearLevel, reasonText, clickHideModalBtn };
   },
 });
 </script>
@@ -42,6 +36,7 @@ export default defineComponent({
             levelData.select ? levelData.class + ' select' : levelData.class
           "
           :id="levelData.class"
+          :key="levelData.class"
         >
           {{ levelData.level }}
         </li>
@@ -58,7 +53,6 @@ export default defineComponent({
           id="reason"
           placeholder="오늘 또 운 이유는 ? 😯"
           v-model="reasonText"
-          @input="writeReasonText"
           maxlength="134"
         ></textarea>
       </div>
