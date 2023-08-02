@@ -1,14 +1,14 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
 
-interface ComponentData {
-  monthArr: (string | number)[];
-}
-
 export default defineComponent({
+  props: {
+    lan: Boolean,
+  },
   setup() {
-    const data: ComponentData = reactive({
-      monthArr: ['7월'],
+    const data = reactive({
+      monthKr: new Date().getMonth() + 1 + '월',
+      monthEn: 'Aug',
     });
 
     return {
@@ -19,7 +19,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="button">{{ data.monthArr[0] }}</div>
+  <button class="button">
+    {{ lan ? data.monthKr : data.monthEn }}
+  </button>
 </template>
 
 <style scoped lang="scss">
@@ -30,6 +32,7 @@ export default defineComponent({
   border: none;
   border-radius: 16px;
   color: #fff;
+  font-size: 1.2rem;
   font-weight: 700;
 }
 </style>

@@ -5,13 +5,13 @@ export default defineComponent({
   name: 'WriteModal',
   emits: ['show-modal'],
   setup(_, { emit }) {
-    const tearLevel = [
+    const tearLevel = ref([
       { level: '울컥', class: 'level1', select: true },
-      { level: '글썽', class: 'level2', select: true },
-      { level: '또르륵', class: 'level3', select: true },
-      { level: '주륵주륵', class: 'level4', select: true },
-      { level: '꺼이꺼이', class: 'level5', select: true },
-    ];
+      { level: '글썽', class: 'level2', select: false },
+      { level: '또르륵', class: 'level3', select: false },
+      { level: '주륵주륵', class: 'level4', select: false },
+      { level: '꺼이꺼이', class: 'level5', select: false },
+    ]);
 
     const reasonText = ref('');
 
@@ -19,7 +19,14 @@ export default defineComponent({
       emit('show-modal');
     };
 
-    return { tearLevel, reasonText, clickHideModalBtn };
+    const selectLevel = (e: MouseEvent) => {
+      const id = (e.target as HTMLLIElement).id;
+      tearLevel.value.forEach((level) => {
+        id === level.class ? (level.select = true) : (level.select = false);
+      });
+    };
+
+    return { tearLevel, reasonText, clickHideModalBtn, selectLevel };
   },
 });
 </script>
@@ -37,6 +44,7 @@ export default defineComponent({
           "
           :id="levelData.class"
           :key="levelData.class"
+          @click="selectLevel"
         >
           {{ levelData.level }}
         </li>
@@ -51,7 +59,7 @@ export default defineComponent({
         <textarea
           name="reason"
           id="reason"
-          placeholder="오늘 또 운 이유는 ? 😯"
+          placeholder="오늘은 또 왜 울었나요 ? 😮"
           v-model="reasonText"
           maxlength="134"
         ></textarea>
@@ -169,7 +177,6 @@ export default defineComponent({
       background-color: transparent;
       font-size: 1.2rem;
       line-height: 1.4;
-      font-family: 'GmarketSans';
     }
     textarea::placeholder {
       padding-top: 40px;
@@ -188,7 +195,6 @@ export default defineComponent({
     color: #fff;
     background-color: #2779f6;
     font-size: 1.2rem;
-    font-family: 'GmarketSans';
     font-weight: 500;
 
     &:hover {

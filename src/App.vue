@@ -29,7 +29,11 @@ getAnalytics(app);
 const db = getFirestore(app);
 
 const getData = async (database: Firestore) => {
-  const thisMonthData = collection(database, '2023_07');
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString();
+  const twoDigitMonth = month.length < 2 ? '0' + month : month;
+  const thisMonthData = collection(database, `${year}_${twoDigitMonth}`);
   const monthDataDoc = await getDocs(thisMonthData);
   const monthDatas = monthDataDoc.docs.map((doc) => doc.data());
   return monthDatas;

@@ -50,10 +50,16 @@ export default defineComponent({
       English
     </button>
     <div>
-      <h1 class="title">맨날 우는 사람이 우는 이유</h1>
-      <p class="desc">오늘은 또 무슨 이유로 울었을까요? 🥲</p>
+      <h1 class="title">{{ data.activeKr ? '수도꼭지 일기' : 'TAP DIARY' }}</h1>
+      <p class="desc">
+        {{
+          data.activeKr
+            ? '수도꼭지는 왜 열렸을까 ? 🥲'
+            : 'Why did the tap open ? 🥲'
+        }}
+      </p>
     </div>
-    <Month />
+    <Month :lan="data.activeKr" />
     <WriteBtn @click="clickShowModalBtn" />
   </div>
 </template>
