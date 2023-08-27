@@ -2,6 +2,7 @@
 import { defineComponent, ref } from 'vue';
 import Main from './pages/Main.vue';
 import WriteModal from './pages/WriteModal.vue';
+import DiaryItemType from './types/diaryItemType';
 
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
@@ -40,21 +41,23 @@ const getData = async (database: Firestore) => {
 };
 
 const data = await getData(db);
-data.forEach((data) => {
-  console.log('data level:', data.level);
-  console.log('data date:', dayjs(data.date).format('YYYY-MM-DD hh:mm:ss'));
-  console.log('data reason:', data.reason);
+data.sort((a, b) => {
+  return dayjs(a.date).isAfter(dayjs(b.date)) ? -1 : 1;
 });
+// console.log('data level:', data.level);
+// console.log('data date:', dayjs(data.date).format('YYYY-MM-DD hh:mm:ss'));
+// console.log('data reason:', data.reason);
 
 export default defineComponent({
   setup() {
     const isShowModal = ref(false);
+    const diarys = ref(data as DiaryItemType[]);
 
     const showModal = () => {
       isShowModal.value = !isShowModal.value;
     };
 
-    return { isShowModal, showModal };
+    return { isShowModal, showModal, diarys };
   },
   components: {
     Main,
@@ -64,7 +67,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Main @show-modal="showModal" />
+  <Main @show-modal="showModal" :diarys="diarys" />
   <div v-if="isShowModal">
     <WriteModal @show-modal="showModal" />
   </div>

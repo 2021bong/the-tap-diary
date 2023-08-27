@@ -35,6 +35,12 @@ export default defineComponent({
   <div class="background">
     <div class="write-modal">
       <h4 class="title">작성하기</h4>
+      <button class="close-btn" @click="clickHideModalBtn">
+        <span
+          class="pi pi-times icon"
+          style="font-size: 1.2rem; color: #000"
+        ></span>
+      </button>
       <ul class="level-box">
         <li
           v-for="levelData in tearLevel"
@@ -49,12 +55,7 @@ export default defineComponent({
           {{ levelData.level }}
         </li>
       </ul>
-      <button class="close-btn" @click="clickHideModalBtn">
-        <span
-          class="pi pi-times icon"
-          style="font-size: 1.2rem; color: #000"
-        ></span>
-      </button>
+
       <div class="text-area">
         <textarea
           name="reason"

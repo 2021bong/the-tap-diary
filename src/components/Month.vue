@@ -27,6 +27,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .button {
   display: inline-block;
+  margin-bottom: 15px;
   padding: 10px 20px;
   background-color: #80a6ff;
   border: none;

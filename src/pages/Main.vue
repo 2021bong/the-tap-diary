@@ -3,6 +3,8 @@ import { defineComponent, reactive } from 'vue';
 import Month from '../components/Month.vue';
 import LanBtn from '../components/LanBtn.vue';
 import WriteBtn from '../components/WriteBtn.vue';
+import DiaryItem from '../components/DiaryItem.vue';
+import DiaryItemType from '../types/diaryItemType';
 
 export default defineComponent({
   name: 'Main',
@@ -10,6 +12,10 @@ export default defineComponent({
     Month,
     LanBtn,
     WriteBtn,
+    DiaryItem,
+  },
+  props: {
+    diarys: Array as () => DiaryItemType[],
   },
   emits: ['show-modal'],
   setup(_, { emit }) {
@@ -49,7 +55,7 @@ export default defineComponent({
     >
       English
     </button>
-    <div>
+    <header>
       <h1 class="title">{{ data.activeKr ? '수도꼭지 일기' : 'TAP DIARY' }}</h1>
       <p class="desc">
         {{
@@ -58,8 +64,19 @@ export default defineComponent({
             : 'Why did the tap open ? 🥲'
         }}
       </p>
-    </div>
-    <Month :lan="data.activeKr" />
+    </header>
+    <main>
+      <Month :lan="data.activeKr" />
+      <ul class="diary">
+        <DiaryItem
+          v-for="item in diarys"
+          :key="item.date"
+          :level="item.level"
+          :date="item.date"
+          :reason="item.reason"
+        />
+      </ul>
+    </main>
     <WriteBtn @click="clickShowModalBtn" />
   </div>
 </template>
@@ -91,15 +108,22 @@ export default defineComponent({
   background-color: #e2e2e2;
 }
 .title {
-  margin: 10px 0;
+  margin: 20px 0 5px 0;
   font-weight: 800;
 }
 
 .desc {
   display: inline-block;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   padding: 5px 20px;
   background-color: #dfe9f5;
   border-radius: 16px;
+}
+
+.diary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>
