@@ -4,6 +4,7 @@ import Month from '../components/Month.vue';
 import LanBtn from '../components/LanBtn.vue';
 import WriteBtn from '../components/WriteBtn.vue';
 import DiaryItem from '../components/DiaryItem.vue';
+import LevelBox from '../components/LevelBox.vue';
 import DiaryItemType from '../types/diaryItemType';
 
 export default defineComponent({
@@ -13,6 +14,7 @@ export default defineComponent({
     LanBtn,
     WriteBtn,
     DiaryItem,
+    LevelBox,
   },
   props: {
     diarys: Array as () => DiaryItemType[],
@@ -21,6 +23,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const data = reactive({
       activeKr: true,
+      showLevel: false,
     });
 
     const changeButtonState = (e: Event) => {
@@ -28,17 +31,35 @@ export default defineComponent({
       target.id === 'kr' ? (data.activeKr = true) : (data.activeKr = false);
     };
 
+    const showLevelBoxForPc = (e: Event) => {
+      e.type === 'mouseenter'
+        ? (data.showLevel = true)
+        : (data.showLevel = false);
+    };
+    const showLevelBoxMobile = (e: Event) => {
+      const target = e.target as HTMLElement;
+      target.id === 'levelInfo'
+        ? (data.showLevel = true)
+        : (data.showLevel = false);
+    };
+
     const clickShowModalBtn = () => {
       emit('show-modal');
     };
 
-    return { data, changeButtonState, clickShowModalBtn };
+    return {
+      data,
+      changeButtonState,
+      clickShowModalBtn,
+      showLevelBoxForPc,
+      showLevelBoxMobile,
+    };
   },
 });
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" @click="showLevelBoxMobile">
     <button
       id="kr"
       class="lan-btn"
@@ -65,7 +86,16 @@ export default defineComponent({
         }}
       </p>
     </header>
-    <main>
+    <main class="main">
+      <span
+        id="levelInfo"
+        class="pi pi-question-circle question"
+        style="font-size: 1.7rem; color: #aaa"
+        @mouseenter="showLevelBoxForPc"
+        @mouseleave="showLevelBoxForPc"
+      >
+        <LevelBox v-show="data.showLevel" :activeKr="data.activeKr" />
+      </span>
       <Month :lan="data.activeKr" />
       <ul class="diary">
         <DiaryItem
@@ -86,6 +116,7 @@ export default defineComponent({
   position: relative;
   max-width: 600px;
   margin: 0 auto;
+  height: 100vh;
   padding: 2rem;
   text-align: center;
 }
@@ -120,10 +151,21 @@ export default defineComponent({
   border-radius: 16px;
 }
 
-.diary {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.main {
+  position: relative;
+
+  .diary {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .question {
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    display: inline-block;
+  }
 }
 </style>

@@ -16,8 +16,8 @@ export default defineComponent({});
 <style lang="scss">
 .write-btn {
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: 30px;
+  bottom: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
