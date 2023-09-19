@@ -43,6 +43,7 @@ button {
   border-radius: 8px;
   font-family: 'GmarketSans';
   cursor: pointer;
+  color: #333;
 }
 
 ul,

@@ -1,5 +1,22 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
+import MonthsType from '../types/monthsType'
+
+const monthsEn : MonthsType = {
+  '1':'Jan',
+  '2':'Fab',
+  '3':'Mar',
+  '4':'Apr',
+  '5':'May',
+  '6':'Jun',
+  '7':'Jul',
+  '8':'Aug',
+  '9':'Sept',
+  '10':'Oct',
+  '11':'Nov',
+  '12':'Dec',
+}
+const thisMonth = (new Date().getMonth() + 1).toString();
 
 export default defineComponent({
   props: {
@@ -7,8 +24,8 @@ export default defineComponent({
   },
   setup() {
     const data = reactive({
-      monthKr: new Date().getMonth() + 1 + '월',
-      monthEn: 'Aug',
+      monthKr: thisMonth + '월',
+      monthEn: monthsEn[thisMonth as keyof MonthsType],
     });
 
     return {

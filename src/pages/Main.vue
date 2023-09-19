@@ -97,7 +97,8 @@ export default defineComponent({
         <LevelBox v-show="data.showLevel" :activeKr="data.activeKr" />
       </span>
       <Month :lan="data.activeKr" />
-      <ul class="diary">
+      <div v-if="diarys?.length === 0" class="no-data">이달은 울지 않았어요! 👏👏👏</div>
+      <ul v-else class="diary">
         <DiaryItem
           v-for="item in diarys"
           :key="item.date"
@@ -153,6 +154,18 @@ export default defineComponent({
 
 .main {
   position: relative;
+
+  .no-data {
+    width: 60%;
+    min-width: 275px;
+    height: 100px;
+    margin: 30px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFEDF;
+    border-radius: 10px;
+  }
 
   .diary {
     display: flex;
