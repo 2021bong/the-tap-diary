@@ -16,16 +16,16 @@ const monthsEn : MonthsType = {
   '11':'Nov',
   '12':'Dec',
 }
-const thisMonth = (new Date().getMonth() + 1).toString();
 
 export default defineComponent({
   props: {
     lan: Boolean,
+    month: String
   },
-  setup() {
+  setup({month}) {
     const data = reactive({
-      monthKr: thisMonth + '월',
-      monthEn: monthsEn[thisMonth as keyof MonthsType],
+      monthKr: month + '월',
+      monthEn: monthsEn[month as keyof MonthsType],
     });
 
     return {
