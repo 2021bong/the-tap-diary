@@ -2,7 +2,6 @@
 import { defineComponent, reactive } from 'vue';
 import Month from '../components/Month.vue';
 import LanBtn from '../components/LanBtn.vue';
-import WriteBtn from '../components/WriteBtn.vue';
 import DiaryItem from '../components/DiaryItem.vue';
 import LevelBox from '../components/LevelBox.vue';
 import DiaryItemType from '../types/diaryItemType';
@@ -12,7 +11,6 @@ export default defineComponent({
   components: {
     Month,
     LanBtn,
-    WriteBtn,
     DiaryItem,
     LevelBox,
   },
@@ -20,7 +18,7 @@ export default defineComponent({
     diarys: Array as () => DiaryItemType[],
   },
   emits: ['show-modal'],
-  setup(_, { emit }) {
+  setup() {
     const data = reactive({
       activeKr: true,
       showLevel: false,
@@ -43,14 +41,9 @@ export default defineComponent({
         : (data.showLevel = false);
     };
 
-    const clickShowModalBtn = () => {
-      emit('show-modal');
-    };
-
     return {
       data,
       changeButtonState,
-      clickShowModalBtn,
       showLevelBoxForPc,
       showLevelBoxMobile,
     };
@@ -108,7 +101,6 @@ export default defineComponent({
         />
       </ul>
     </main>
-    <WriteBtn @click="clickShowModalBtn" />
   </div>
 </template>
 
