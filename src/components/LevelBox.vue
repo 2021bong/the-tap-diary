@@ -45,6 +45,13 @@ export default defineComponent({
           <span class="level-name">{{ activeKr ? '꺼이꺼이' : 'wail' }}</span>
         </li>
       </ul>
+      <p class="information">
+        {{
+          activeKr
+            ? `* 월을 클릭하면 다른 달의 데이터도 볼 수 있어요!`
+            : '* If you click month, you can see other month data!'
+        }}
+      </p>
     </div>
   </div>
 </template>
@@ -124,6 +131,10 @@ export default defineComponent({
         background-color: #2350d933;
         color: #2350d9;
       }
+    }
+    .information {
+      font-size: 12px;
+      line-height: 1.24;
     }
   }
   .triangle {
