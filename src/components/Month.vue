@@ -1,8 +1,8 @@
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, ref } from 'vue';
 import MonthsType from '../types/monthsType';
 
-const monthsEn: MonthsType = {
+const MONTH_EN: MonthsType = {
   '1': 'Jan',
   '2': 'Fab',
   '3': 'Mar',
@@ -22,14 +22,11 @@ export default defineComponent({
     lan: Boolean,
     month: String,
   },
-  setup({ month }) {
-    const data = reactive({
-      monthKr: month + '월',
-      monthEn: monthsEn[month as keyof MonthsType],
-    });
+  setup() {
+    const monthEN = ref(MONTH_EN);
 
     return {
-      data,
+      monthEN,
     };
   },
 });
@@ -37,7 +34,7 @@ export default defineComponent({
 
 <template>
   <button class="button">
-    {{ lan ? data.monthKr : data.monthEn }}
+    {{ lan ? month + '월' : monthEN[month as keyof MonthsType] }}
   </button>
 </template>
 

@@ -23,7 +23,7 @@ months.unshift(countDate);
 
 export default defineComponent({
   name: 'DateModal',
-  emits: ['show-modal'],
+  emits: ['show-modal', 'change-diarys'],
   props: {
     lan: Boolean,
   },
@@ -32,8 +32,17 @@ export default defineComponent({
     const clickHideModalBtn = () => {
       emit('show-modal');
     };
+    const clickDate = (e: Event) => {
+      const target = e.target as HTMLDivElement;
+      let [pickedY, pickedM] = target.id.split('_');
+      if (pickedM.length == 1) {
+        pickedM = '0' + pickedM;
+      }
+      emit('change-diarys', `${pickedY}_${pickedM}`);
+      emit('show-modal');
+    };
 
-    return { selectableMonths, clickHideModalBtn };
+    return { selectableMonths, clickHideModalBtn, clickDate };
   },
 });
 </script>
@@ -46,6 +55,8 @@ export default defineComponent({
         <span
           class="month-badge"
           :class="date.split('_')[1] === '12' ? 'new-year' : ''"
+          :id="date.split('_')[0] + '_' + date.split('_')[1]"
+          @click="clickDate"
           v-for="date in selectableMonths"
           >{{ date.split('_')[0] + '년' + date.split('_')[1] + '월' }}</span
         >

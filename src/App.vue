@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, reactive } from 'vue';
 import Main from './pages/Main.vue';
 import WriteModal from './pages/WriteModal.vue';
 import DiaryItemType from './types/diaryItemType';
@@ -48,16 +48,37 @@ data.sort((a, b) => {
 // console.log('data date:', dayjs(data.date).format('YYYY-MM-DD hh:mm:ss'));
 // console.log('data reason:', data.reason);
 
+const month = (new Date().getMonth() + 1).toString();
+
 export default defineComponent({
   setup() {
     const isShowModal = ref(false);
-    const diarys = ref(data as DiaryItemType[]);
+    let diarys = ref(data as DiaryItemType[]);
+    const thisMonth = reactive({ value: month });
 
     const showModal = () => {
       isShowModal.value = !isShowModal.value;
     };
 
-    return { isShowModal, showModal, diarys };
+    const changeDiarys = async (date: string) => {
+      const getNewData = async (database: Firestore) => {
+        const thisMonthData = collection(database, date);
+        const monthDataDoc = await getDocs(thisMonthData);
+        const monthDatas = monthDataDoc.docs.map((doc) => doc.data());
+        return monthDatas;
+      };
+
+      const data = await getNewData(db);
+      const newData = data.sort((a, b) => {
+        return dayjs(a.date).isAfter(dayjs(b.date)) ? -1 : 1;
+      });
+      diarys.value = newData as DiaryItemType[];
+      const [_, getM] = date.split('_');
+      const noZeroM = Number(getM).toString();
+      thisMonth.value = noZeroM;
+    };
+
+    return { thisMonth, isShowModal, showModal, diarys, changeDiarys };
   },
   components: {
     Main,
@@ -67,10 +88,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <Main @show-modal="showModal" :diarys="diarys" />
-  <div v-if="isShowModal">
-    <WriteModal @show-modal="showModal" />
-  </div>
+  <Main
+    @show-modal="showModal"
+    :diarys="diarys"
+    :thisMonth="thisMonth.value"
+    @change-diarys="changeDiarys"
+  />
 </template>
 
 <style lang="scss"></style>

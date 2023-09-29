@@ -14,18 +14,18 @@ export default defineComponent({
     LanBtn,
     DiaryItem,
     LevelBox,
-    DateModal
+    DateModal,
   },
   props: {
     diarys: Array as () => DiaryItemType[],
+    thisMonth: String,
   },
-  emits: ['show-modal'],
-  setup() {
+  emits: ['change-diarys'],
+  setup(_, { emit }) {
     const data = reactive({
       activeKr: true,
       showLevel: false,
       showModal: false,
-      thisMonth: (new Date().getMonth() + 1).toString()
     });
 
     const changeButtonState = (e: Event) => {
@@ -44,10 +44,14 @@ export default defineComponent({
         ? (data.showLevel = true)
         : (data.showLevel = false);
     };
-    
+
     const showDateModal = () => {
-      data.showModal = !data.showModal
-    }
+      data.showModal = !data.showModal;
+    };
+
+    const changeDairys = (data: string) => {
+      emit('change-diarys', data);
+    };
 
     return {
       data,
@@ -55,6 +59,7 @@ export default defineComponent({
       showDateModal,
       showLevelBoxForPc,
       showLevelBoxMobile,
+      changeDairys,
     };
   },
 });
@@ -98,8 +103,15 @@ export default defineComponent({
       >
         <LevelBox v-show="data.showLevel" :activeKr="data.activeKr" />
       </span>
-      <Month id="monthBtn" :month="data.thisMonth" :lan="data.activeKr" @click="showDateModal" />
-      <div v-if="diarys?.length === 0" class="no-data">이달은 울지 않았어요! 👏👏👏</div>
+      <Month
+        id="monthBtn"
+        :month="thisMonth"
+        :lan="data.activeKr"
+        @click="showDateModal"
+      />
+      <div v-if="diarys?.length === 0" class="no-data">
+        이달은 울지 않았어요! 👏👏👏
+      </div>
       <ul v-else class="diary">
         <DiaryItem
           v-for="item in diarys"
@@ -111,7 +123,12 @@ export default defineComponent({
       </ul>
     </main>
   </div>
-  <DateModal v-if="data.showModal" @show-modal="showDateModal" :lan="data.activeKr"/>
+  <DateModal
+    v-if="data.showModal"
+    :lan="data.activeKr"
+    @show-modal="showDateModal"
+    @change-diarys="changeDairys"
+  />
 </template>
 
 <style scoped lang="scss">
@@ -165,7 +182,7 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FFFEDF;
+    background-color: #fffedf;
     border-radius: 10px;
   }
 
