@@ -29,18 +29,18 @@ const app = initializeApp(firebaseConfig);
 getAnalytics(app);
 const db = getFirestore(app);
 
-const getData = async (database: Firestore) => {
+const getData = async () => {
   const date = new Date();
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString();
   const twoDigitMonth = month.length < 2 ? '0' + month : month;
-  const thisMonthData = collection(database, `${year}_${twoDigitMonth}`);
+  const thisMonthData = collection(db, `${year}_${twoDigitMonth}`);
   const monthDataDoc = await getDocs(thisMonthData);
   const monthDatas = monthDataDoc.docs.map((doc) => doc.data());
   return monthDatas;
 };
 
-const data = await getData(db);
+const data = await getData();
 data.sort((a, b) => {
   return dayjs(a.date).isAfter(dayjs(b.date)) ? -1 : 1;
 });
