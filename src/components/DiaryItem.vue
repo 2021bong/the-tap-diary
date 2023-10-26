@@ -6,6 +6,8 @@ export default defineComponent({
     date: String,
     level: Number,
     reason: String,
+    reasonEn: String,
+    activeKr: Boolean,
   },
 });
 </script>
@@ -15,7 +17,7 @@ export default defineComponent({
     <div class="level-box" :class="'level' + level">Lv {{ level }}</div>
     <div class="content-box">
       <p class="reason">
-        {{ reason }}
+        {{ activeKr ? reason : reasonEn }}
       </p>
       <p class="date">
         {{ date }}

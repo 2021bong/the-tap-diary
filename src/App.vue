@@ -53,7 +53,7 @@ const month = (new Date().getMonth() + 1).toString();
 export default defineComponent({
   setup() {
     const isShowModal = ref(false);
-    let diarys = ref(data as DiaryItemType[]);
+    let diarys = reactive(data as DiaryItemType[]);
     const thisMonth = reactive({ value: month });
 
     const showModal = () => {
@@ -72,7 +72,7 @@ export default defineComponent({
       const newData = data.sort((a, b) => {
         return dayjs(a.date).isAfter(dayjs(b.date)) ? -1 : 1;
       });
-      diarys.value = newData as DiaryItemType[];
+      diarys = newData as DiaryItemType[];
       const [_, getM] = date.split('_');
       const noZeroM = Number(getM).toString();
       thisMonth.value = noZeroM;

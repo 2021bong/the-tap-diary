@@ -6,6 +6,7 @@ import DiaryItem from '../components/DiaryItem.vue';
 import LevelBox from '../components/LevelBox.vue';
 import DiaryItemType from '../types/diaryItemType';
 import DateModal from './DateModal.vue';
+import axios from 'axios';
 
 export default defineComponent({
   name: 'Main',
@@ -21,7 +22,7 @@ export default defineComponent({
     thisMonth: String,
   },
   emits: ['change-diarys'],
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const data = reactive({
       activeKr: true,
       showLevel: false,
@@ -31,6 +32,19 @@ export default defineComponent({
     const changeButtonState = (e: Event) => {
       const target = e.target as HTMLButtonElement;
       target.id === 'kr' ? (data.activeKr = true) : (data.activeKr = false);
+      if (!data.activeKr) {
+        if (!props.diarys?.[0].reasonEn) {
+          const krText = props.diarys?.map((item) => item.reason);
+          axios
+            .post(import.meta.env.VITE_TRANSLATE_URL, { text: krText })
+            .then((res) => {
+              const enText = res.data;
+              props.diarys?.map((item, i) => (item.reasonEn = enText[i]));
+            });
+        } else {
+          console.log('There was reasonEn');
+        }
+      }
     };
 
     const showLevelBoxForPc = (e: Event) => {
@@ -119,6 +133,8 @@ export default defineComponent({
           :level="item.level"
           :date="item.date"
           :reason="item.reason"
+          :reasonEn="item.reasonEn"
+          :activeKr="data.activeKr"
         />
       </ul>
     </main>
