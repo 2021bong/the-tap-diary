@@ -1,18 +1,43 @@
-# Vue 3 + TypeScript + Vite
+# 수도꼭지 일기 (The Tap Dairy)
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+자주 우는 사람의 얼만큼 왜 울었는지 기록하는 눈물 일기
+A tear diary of someone nicknamed Tap
 
-## Recommended IDE Setup
+## Demo
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+You can access the live demo of this project at [수도꼭지 일기(The Tap Dairy)](https://the-tap-diary.vercel.app/).
 
-## Type Support For `.vue` Imports in TS
+## Table of Contents
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+- [Technologies Used](#technologies-used)
+- [Features](#features)
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+## Technologies Used
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+- Vite
+- Vue.js
+- TypeScript
+- Firebase
+- Deepl translate API
+
+## Features
+
+- Main
+  <br />
+  <img width="732" alt="main" src="https://github.com/2021bong/the-tap-diary/assets/49029756/5bfdf6fb-671e-4d1f-920f-614c96696710">
+
+  - No data
+    <br />
+    <img width="661" alt="스크린샷 2023-11-05 오후 7 14 37" src="https://github.com/2021bong/the-tap-diary/assets/49029756/c5d07943-7632-481c-922e-365050697738">
+
+- Information
+  <br />
+  <img width="702" alt="information" src="https://github.com/2021bong/the-tap-diary/assets/49029756/c72792fe-634a-43a4-9054-18141801465e">
+
+- English mode
+  <br />
+  <img width="815" alt="set english mode" src="https://github.com/2021bong/the-tap-diary/assets/49029756/28388900-3db9-4d2a-b9f3-744e1b89f67b">
+
+- Select month
+  <br />
+  <img width="657" alt="select other month" src="https://github.com/2021bong/the-tap-diary/assets/49029756/d44f0331-2bf4-4954-a6b3-6cfe69753924">
