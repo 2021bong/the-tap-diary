@@ -27,6 +27,7 @@ export default defineComponent({
       activeKr: true,
       showLevel: false,
       showModal: false,
+      isLoading: false,
     });
 
     const changeButtonState = (e: Event) => {
@@ -34,15 +35,18 @@ export default defineComponent({
       target.id === 'kr' ? (data.activeKr = true) : (data.activeKr = false);
       if (!data.activeKr) {
         if (!props.diarys?.[0].reasonEn) {
+          data.isLoading = true;
           const krText = props.diarys?.map((item) => item.reason);
           axios
             .post(import.meta.env.VITE_TRANSLATE_URL, { text: krText })
             .then((res) => {
               const enText = res.data;
               props.diarys?.map((item, i) => (item.reasonEn = enText[i]));
-            });
+            })
+            .then(() => (data.isLoading = false));
         } else {
           console.log('There was reasonEn');
+          data.isLoading = false;
         }
       }
     };
@@ -81,6 +85,14 @@ export default defineComponent({
 
 <template>
   <div class="container" @click="showLevelBoxMobile">
+    <template v-if="data.isLoading">
+      <div class="background">
+        <i
+          class="pi pi-spin pi-spinner"
+          style="font-size: 2rem; color: #fff"
+        ></i>
+      </div>
+    </template>
     <button
       id="kr"
       class="lan-btn"
@@ -155,6 +167,20 @@ export default defineComponent({
   height: 100vh;
   padding: 2rem;
   text-align: center;
+}
+
+.background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 200px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(100, 100, 100, 0.6);
+  z-index: 1;
 }
 .lan-btn {
   width: 100px;
