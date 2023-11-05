@@ -23,14 +23,21 @@ months.unshift(countDate);
 
 export default defineComponent({
   name: 'DateModal',
-  emits: ['show-modal', 'change-diarys'],
+  emits: ['show-modal', 'change-month'],
   props: {
     lan: Boolean,
   },
   setup(_, { emit }) {
     const selectableMonths = ref(months as string[]);
-    const clickHideModalBtn = () => {
-      emit('show-modal');
+    const clickHideModalBtn = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (
+        target.id === 'modalBg' ||
+        target.id === 'closeBtn' ||
+        target.id === 'closeIcon'
+      ) {
+        emit('show-modal');
+      }
     };
     const clickDate = (e: Event) => {
       const target = e.target as HTMLDivElement;
@@ -38,7 +45,7 @@ export default defineComponent({
       if (pickedM.length == 1) {
         pickedM = '0' + pickedM;
       }
-      emit('change-diarys', `${pickedY}_${pickedM}`);
+      emit('change-month', `${pickedY}_${pickedM}`);
       emit('show-modal');
     };
 
@@ -48,7 +55,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="background">
+  <div id="modalBg" class="background modal-bg" @click="clickHideModalBtn">
     <div class="date-modal">
       <h4 class="title">월별로 보기</h4>
       <div class="month-box">
@@ -61,8 +68,9 @@ export default defineComponent({
           >{{ date.split('_')[0] + '년' + date.split('_')[1] + '월' }}</span
         >
       </div>
-      <button class="close-btn" @click="clickHideModalBtn">
+      <button id="closeBtn" class="close-btn" @click="clickHideModalBtn">
         <span
+          id="closeIcon"
           class="pi pi-times icon"
           style="font-size: 1.2rem; color: #000"
         ></span>
@@ -72,22 +80,17 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-.background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.1);
+.modal-bg {
+  padding-top: 150px;
+  background-color: rgba(100, 100, 100, 0.6);
 }
 .date-modal {
-  position: absolute;
-  top: 20%;
-  left: calc(50% - 200px);
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 400px;
+  max-width: 400px;
+  width: 90%;
+  margin: 0 auto;
   height: 500px;
   padding: 40px 20px;
   background-color: #fdfdfd;
@@ -96,6 +99,7 @@ export default defineComponent({
   box-sizing: border-box;
 
   .title {
+    text-align: center;
     font-size: 18px;
     margin-bottom: 30px;
   }
@@ -103,18 +107,19 @@ export default defineComponent({
   .month-box {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     width: 100%;
-    height: 70%;
+    max-height: 70%;
     margin-bottom: 30px;
     overflow: scroll;
 
     .month-badge {
-      display: inline-flex;
+      display: flex;
       justify-content: center;
       align-items: center;
+      min-width: 108px;
       width: 30%;
       height: 40px;
+      margin-right: 10px;
       margin-bottom: 10px;
       border-radius: 10px;
       color: #80a6ff;

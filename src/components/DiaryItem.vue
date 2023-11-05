@@ -4,7 +4,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   props: {
     date: String,
-    level: Number,
+    level: [Number, String],
     reason: String,
     reasonEn: String,
     activeKr: Boolean,
@@ -46,7 +46,7 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 45px;
+    min-width: 45px;
     height: 24px;
     margin: 4px 18px 0 0;
     padding: 5px;

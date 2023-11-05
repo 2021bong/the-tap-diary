@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref } from 'vue';
 import Main from './pages/Main.vue';
 import WriteModal from './pages/WriteModal.vue';
 import DiaryItemType from './types/diaryItemType';
@@ -53,14 +53,14 @@ const month = (new Date().getMonth() + 1).toString();
 export default defineComponent({
   setup() {
     const isShowModal = ref(false);
-    let diarys = reactive(data as DiaryItemType[]);
-    const thisMonth = reactive({ value: month });
+    let diarys = ref(data as DiaryItemType[]);
+    const thisMonth = ref(month);
 
     const showModal = () => {
       isShowModal.value = !isShowModal.value;
     };
 
-    const changeDiarys = async (date: string) => {
+    const changeMonth = async (date: string) => {
       const getNewData = async (database: Firestore) => {
         const thisMonthData = collection(database, date);
         const monthDataDoc = await getDocs(thisMonthData);
@@ -72,13 +72,24 @@ export default defineComponent({
       const newData = data.sort((a, b) => {
         return dayjs(a.date).isAfter(dayjs(b.date)) ? -1 : 1;
       });
-      diarys = newData as DiaryItemType[];
+      diarys.value = newData as DiaryItemType[];
       const [_, getM] = date.split('_');
       const noZeroM = Number(getM).toString();
       thisMonth.value = noZeroM;
     };
 
-    return { thisMonth, isShowModal, showModal, diarys, changeDiarys };
+    const modifyDiarys = (newDiary: DiaryItemType[]) => {
+      diarys.value = newDiary;
+    };
+
+    return {
+      thisMonth,
+      isShowModal,
+      showModal,
+      diarys,
+      changeMonth,
+      modifyDiarys,
+    };
   },
   components: {
     Main,
@@ -89,10 +100,10 @@ export default defineComponent({
 
 <template>
   <Main
-    @show-modal="showModal"
     :diarys="diarys"
-    :thisMonth="thisMonth.value"
-    @change-diarys="changeDiarys"
+    :thisMonth="thisMonth"
+    @change-month="changeMonth"
+    @modify-diarys="modifyDiarys"
   />
 </template>
 

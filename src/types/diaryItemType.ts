@@ -1,6 +1,6 @@
 export default interface DiaryItemType {
   date: string;
   reason: string;
-  level: number;
+  level: number | string;
   reasonEn?: string;
 }

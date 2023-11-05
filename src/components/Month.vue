@@ -39,6 +39,13 @@ export default defineComponent({
 </template>
 
 <style scoped lang="scss">
+.en-mode {
+  cursor: not-allowed;
+
+  &:active {
+    background-color: #80a6ff;
+  }
+}
 .button {
   display: inline-block;
   margin-bottom: 15px;

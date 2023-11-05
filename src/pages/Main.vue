@@ -21,7 +21,7 @@ export default defineComponent({
     diarys: Array as () => DiaryItemType[],
     thisMonth: String,
   },
-  emits: ['change-diarys'],
+  emits: ['change-month', 'modify-diarys'],
   setup(props, { emit }) {
     const data = reactive({
       activeKr: true,
@@ -41,11 +41,16 @@ export default defineComponent({
             .post(import.meta.env.VITE_TRANSLATE_URL, { text: krText })
             .then((res) => {
               const enText = res.data;
-              props.diarys?.map((item, i) => (item.reasonEn = enText[i]));
+              const newDiary = props.diarys?.map((item, i) => {
+                const prevItem = { ...item };
+                prevItem.reasonEn = enText[i];
+                return prevItem;
+              });
+              data.activeKr = false;
+              emit('modify-diarys', newDiary);
             })
             .then(() => (data.isLoading = false));
         } else {
-          console.log('There was reasonEn');
           data.isLoading = false;
         }
       }
@@ -64,11 +69,13 @@ export default defineComponent({
     };
 
     const showDateModal = () => {
-      data.showModal = !data.showModal;
+      if (data.activeKr) {
+        data.showModal = !data.showModal;
+      }
     };
 
-    const changeDairys = (data: string) => {
-      emit('change-diarys', data);
+    const changeMonth = (data: string) => {
+      emit('change-month', data);
     };
 
     return {
@@ -77,7 +84,7 @@ export default defineComponent({
       showDateModal,
       showLevelBoxForPc,
       showLevelBoxMobile,
-      changeDairys,
+      changeMonth,
     };
   },
 });
@@ -85,14 +92,6 @@ export default defineComponent({
 
 <template>
   <div class="container" @click="showLevelBoxMobile">
-    <template v-if="data.isLoading">
-      <div class="background">
-        <i
-          class="pi pi-spin pi-spinner"
-          style="font-size: 2rem; color: #fff"
-        ></i>
-      </div>
-    </template>
     <button
       id="kr"
       class="lan-btn"
@@ -133,6 +132,7 @@ export default defineComponent({
         id="monthBtn"
         :month="thisMonth"
         :lan="data.activeKr"
+        :class="!data.activeKr && 'en-mode'"
         @click="showDateModal"
       />
       <div v-if="diarys?.length === 0" class="no-data">
@@ -155,8 +155,13 @@ export default defineComponent({
     v-if="data.showModal"
     :lan="data.activeKr"
     @show-modal="showDateModal"
-    @change-diarys="changeDairys"
+    @change-month="changeMonth"
   />
+  <template v-if="data.isLoading">
+    <div class="background">
+      <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: #fff"></i>
+    </div>
+  </template>
 </template>
 
 <style scoped lang="scss">
@@ -170,16 +175,10 @@ export default defineComponent({
 }
 
 .background {
-  position: absolute;
-  left: 0;
-  top: 0;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding-top: 200px;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(100, 100, 100, 0.6);
   z-index: 1;
 }
 .lan-btn {
