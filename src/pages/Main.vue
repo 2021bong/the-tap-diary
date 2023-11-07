@@ -158,7 +158,7 @@ export default defineComponent({
     @change-month="changeMonth"
   />
   <template v-if="data.isLoading">
-    <div class="background">
+    <div class="background" @wheel.prevent @touchmove.prevent @scroll.prevent>
       <i class="pi pi-spin pi-spinner" style="font-size: 2rem; color: #fff"></i>
     </div>
   </template>
@@ -178,7 +178,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 200px;
+  padding-top: 40vh;
   z-index: 1;
 }
 .lan-btn {
