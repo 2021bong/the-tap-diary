@@ -5,7 +5,7 @@ import LanBtn from '../components/LanBtn.vue';
 import DiaryItem from '../components/DiaryItem.vue';
 import LevelBox from '../components/LevelBox.vue';
 import DiaryItemType from '../types/diaryItemType';
-import DateModal from './DateModal.vue';
+import DatePopup from './DatePopup.vue';
 import axios from 'axios';
 
 export default defineComponent({
@@ -15,7 +15,7 @@ export default defineComponent({
     LanBtn,
     DiaryItem,
     LevelBox,
-    DateModal,
+    DatePopup,
   },
   props: {
     diarys: Array as () => DiaryItemType[],
@@ -26,7 +26,7 @@ export default defineComponent({
     const data = reactive({
       activeKr: true,
       showLevel: false,
-      showModal: false,
+      showPopup: false,
       isLoading: false,
     });
 
@@ -68,9 +68,9 @@ export default defineComponent({
         : (data.showLevel = false);
     };
 
-    const showDateModal = () => {
+    const showDatePopup = () => {
       if (data.activeKr) {
-        data.showModal = !data.showModal;
+        data.showPopup = !data.showPopup;
       }
     };
 
@@ -81,7 +81,7 @@ export default defineComponent({
     return {
       data,
       changeButtonState,
-      showDateModal,
+      showDatePopup,
       showLevelBoxForPc,
       showLevelBoxMobile,
       changeMonth,
@@ -133,7 +133,7 @@ export default defineComponent({
         :month="thisMonth"
         :lan="data.activeKr"
         :class="!data.activeKr && 'en-mode'"
-        @click="showDateModal"
+        @click="showDatePopup"
       />
       <div v-if="diarys?.length === 0" class="no-data">
         이달은 울지 않았어요! 👏👏👏
@@ -151,10 +151,10 @@ export default defineComponent({
       </ul>
     </main>
   </div>
-  <DateModal
-    v-if="data.showModal"
+  <DatePopup
+    v-if="data.showPopup"
     :lan="data.activeKr"
-    @show-modal="showDateModal"
+    @show-popup="showDatePopup"
     @change-month="changeMonth"
   />
   <template v-if="data.isLoading">

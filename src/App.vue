@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import Main from './pages/Main.vue';
-import WriteModal from './pages/WriteModal.vue';
 import DiaryItemType from './types/diaryItemType';
 
 import { initializeApp } from 'firebase/app';
@@ -52,12 +51,12 @@ const month = (new Date().getMonth() + 1).toString();
 
 export default defineComponent({
   setup() {
-    const isShowModal = ref(false);
+    const isShowPopup = ref(false);
     let diarys = ref(data as DiaryItemType[]);
     const thisMonth = ref(month);
 
-    const showModal = () => {
-      isShowModal.value = !isShowModal.value;
+    const showPopup = () => {
+      isShowPopup.value = !isShowPopup.value;
     };
 
     const changeMonth = async (date: string) => {
@@ -84,8 +83,8 @@ export default defineComponent({
 
     return {
       thisMonth,
-      isShowModal,
-      showModal,
+      isShowPopup,
+      showPopup,
       diarys,
       changeMonth,
       modifyDiarys,
@@ -93,7 +92,6 @@ export default defineComponent({
   },
   components: {
     Main,
-    WriteModal,
   },
 });
 </script>

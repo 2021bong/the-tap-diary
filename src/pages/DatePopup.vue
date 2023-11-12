@@ -22,21 +22,21 @@ while (countDate !== `${thisYear}_${thisMonth}`) {
 months.unshift(countDate);
 
 export default defineComponent({
-  name: 'DateModal',
-  emits: ['show-modal', 'change-month'],
+  name: 'DatePopup',
+  emits: ['show-popup', 'change-month'],
   props: {
     lan: Boolean,
   },
   setup(_, { emit }) {
     const selectableMonths = ref(months as string[]);
-    const clickHideModalBtn = (e: Event) => {
+    const clickHidePopupBtn = (e: Event) => {
       const target = e.target as HTMLElement;
       if (
-        target.id === 'modalBg' ||
+        target.id === 'popupBg' ||
         target.id === 'closeBtn' ||
         target.id === 'closeIcon'
       ) {
-        emit('show-modal');
+        emit('show-popup');
       }
     };
     const clickDate = (e: Event) => {
@@ -46,17 +46,17 @@ export default defineComponent({
         pickedM = '0' + pickedM;
       }
       emit('change-month', `${pickedY}_${pickedM}`);
-      emit('show-modal');
+      emit('show-popup');
     };
 
-    return { selectableMonths, clickHideModalBtn, clickDate };
+    return { selectableMonths, clickHidePopupBtn, clickDate };
   },
 });
 </script>
 
 <template>
-  <div id="modalBg" class="background modal-bg" @click="clickHideModalBtn">
-    <div class="date-modal">
+  <div id="popupBg" class="background popup-bg" @click="clickHidePopupBtn">
+    <div class="date-popup">
       <h4 class="title">월별로 보기</h4>
       <div class="month-box">
         <span
@@ -68,7 +68,7 @@ export default defineComponent({
           >{{ date.split('_')[0] + '년' + date.split('_')[1] + '월' }}</span
         >
       </div>
-      <button id="closeBtn" class="close-btn" @click="clickHideModalBtn">
+      <button id="closeBtn" class="close-btn" @click="clickHidePopupBtn">
         <span
           id="closeIcon"
           class="pi pi-times icon"
@@ -80,11 +80,11 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-.modal-bg {
+.popup-bg {
   padding-top: 150px;
   background-color: rgba(100, 100, 100, 0.6);
 }
-.date-modal {
+.date-popup {
   position: relative;
   display: flex;
   flex-direction: column;
